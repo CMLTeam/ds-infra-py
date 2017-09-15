@@ -1,14 +1,9 @@
-#language: java
-#jdk:
-#- oraclejdk8
+# don't need any language
+language: generic
 
 #branches:
 #  only:
 #  - release
-
-#cache:
-#  directories:
-#  - $HOME/.m2 # speed up maven
 
 addons:
   ssh_known_hosts: prod.cmlteam.com
