@@ -18,15 +18,17 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     > .log
     cd $APP
     git pull
-    if [ -f .pid ]
+    if [ -f \".pid\" ]
     then
-        kill -9 `cat .pid` >> $DEPLOYLOG 2>&1
+        pid=`cat .pid`
+        echo \"Killing $pid\" >> $DEPLOYLOG 2>&1
+        kill -9 $pid >> $DEPLOYLOG 2>&1
     fi
-    if [ ! -d $DEPLOYVENV ]
+    if [ ! -d \"$DEPLOYVENV\" ]
     then
         virtualenv $DEPLOYVENV >> $DEPLOYLOG 2>&1
     fi
-    . .Python/bin/activate
+    . $DEPLOYVENV/bin/activate
     pip install -r requirements.txt >> $DEPLOYLOG 2>&1
     nohup $PYTHON server.py > /var/log/$APP.log 2>&1 &
     echo $! > .pid
