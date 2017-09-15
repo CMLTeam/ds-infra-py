@@ -14,6 +14,7 @@ DEPLOYLOG=.log
 DEPLOYVENV=.Python
 
 ssh -i /tmp/deploy_rsa $USER@$SERV "
+    export LC_ALL=C # for pip
     > .log
     cd $APP
     git pull
