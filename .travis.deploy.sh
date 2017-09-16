@@ -25,7 +25,8 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     then
         pid=`cat $PIDFILE`
 
-        ls -l >> $LOGFILE 2>&1
+        ls -la >> $LOGFILE 2>&1
+        echo \"@@@@ `pwd`\" >> $LOGFILE 2>&1
         echo \"@@@@ $PIDFILE\" >> $LOGFILE 2>&1
         echo \"@@@@ PID= \$pid, `cat $PIDFILE`\" >> $LOGFILE 2>&1
 
