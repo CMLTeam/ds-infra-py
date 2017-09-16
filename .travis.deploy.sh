@@ -16,11 +16,11 @@ DEPLOYVENV=.Python
 
 ssh -i /tmp/deploy_rsa $USER@$SERV "
     export LC_ALL=C # for pip
-    echo >> $LOGFILE
-    echo \"[`/bin/date +"%Y-%m-%d %H:%M:%S"`] ------- Redeploy started ------- \" >> $LOGFILE
-    echo >> $LOGFILE
     cd $APP
-    git pull
+    echo "" >> $LOGFILE
+    echo \"[`/bin/date +"%Y-%m-%d %H:%M:%S"`] ------- Redeploy started ------- \" >> $LOGFILE
+    echo "" >> $LOGFILE
+    git pull >> $LOGFILE 2>&1
     if [ -f \"$PIDFILE\" ]
     then
         pid=`cat $PIDFILE`
