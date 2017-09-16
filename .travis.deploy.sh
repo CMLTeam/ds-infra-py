@@ -10,26 +10,31 @@ USER=apps1
 SERV=prod.cmlteam.com
 APP=ds-infra-py
 PYTHON=python2
-DEPLOYLOG=.log
+LOGFILE=.log
 DEPLOYVENV=.Python
 
 ssh -i /tmp/deploy_rsa $USER@$SERV "
     export LC_ALL=C # for pip
-    > .log
+    echo >> $LOGFILE
+    echo \"[`/bin/date +"%Y-%m-%d %H:%M:%S"`] ------- Redeploy started ------- \" >> $LOGFILE
+    echo >> $LOGFILE
     cd $APP
     git pull
     if [ -f \".pid\" ]
     then
         pid=`cat .pid`
-        echo \"Killing $pid\" >> $DEPLOYLOG 2>&1
-        kill -9 $pid >> $DEPLOYLOG 2>&1
+        if [ ! -z \"$pid\" ]
+        then
+            echo \"Killing $pid\" >> $LOGFILE 2>&1
+            kill -9 $pid >> $LOGFILE 2>&1
+        fi
     fi
     if [ ! -d \"$DEPLOYVENV\" ]
     then
-        virtualenv $DEPLOYVENV >> $DEPLOYLOG 2>&1
+        ~/.local/bin/virtualenv $DEPLOYVENV >> $LOGFILE 2>&1
     fi
     . $DEPLOYVENV/bin/activate
-    pip install -r requirements.txt >> $DEPLOYLOG 2>&1
-    nohup $PYTHON server.py > /var/log/$APP.log 2>&1 &
+    pip install -r requirements.txt >> $LOGFILE 2>&1
+    nohup $PYTHON server.py > $LOGFILE 2>&1 &
     echo $! > .pid
 "
