@@ -20,7 +20,6 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     echo "" >> $LOGFILE
     echo \"[`/bin/date +"%Y-%m-%d %H:%M:%S"`] ------- Redeploy started ------- \" >> $LOGFILE
     echo "" >> $LOGFILE
-    git pull >> $LOGFILE 2>&1
     if [ -f \"$PIDFILE\" ]
     then
         pid=\$(cat $PIDFILE)
@@ -30,6 +29,7 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
             kill -9 \$pid >> $LOGFILE 2>&1
         fi
     fi
+    git pull >> $LOGFILE 2>&1
     if [ ! -d \"$DEPLOYVENV\" ]
     then
         ~/.local/bin/virtualenv $DEPLOYVENV >> $LOGFILE 2>&1
