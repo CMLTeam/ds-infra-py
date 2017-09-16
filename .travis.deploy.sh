@@ -23,15 +23,7 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     git pull >> $LOGFILE 2>&1
     if [ -f \"$PIDFILE\" ]
     then
-        #pid=`cat $PIDFILE`
-
-        ls -la >> $LOGFILE 2>&1
-        echo \"@@@@ `pwd`\" >> $LOGFILE 2>&1
-        echo \"@@@@ $PIDFILE\" >> $LOGFILE 2>&1
-        echo \"@@@@ PID= \$pid, `cat $PIDFILE`\" >> $LOGFILE 2>&1
-        cat .pid >> $LOGFILE 2>&1
-        echo \"@@@@ PID= \$pid, `cat .pid`\" >> $LOGFILE 2>&1
-
+        pid=\$(cat $PIDFILE)
         if [ ! -z \"\$pid\" ]
         then
             echo \"Killing \$pid\" >> $LOGFILE 2>&1
