@@ -24,6 +24,7 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     if [ -f \"$PIDFILE\" ]
     then
         pid=`cat $PIDFILE`
+        echo \"PID= \$pid\" >> $LOGFILE 2>&1
         if [ ! -z \"\$pid\" ]
         then
             echo \"Killing \$pid\" >> $LOGFILE 2>&1
