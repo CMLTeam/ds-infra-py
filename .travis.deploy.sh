@@ -23,12 +23,13 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     git pull >> $LOGFILE 2>&1
     if [ -f \"$PIDFILE\" ]
     then
-        pid=`cat $PIDFILE`
+        #pid=`cat $PIDFILE`
 
         ls -la >> $LOGFILE 2>&1
         echo \"@@@@ `pwd`\" >> $LOGFILE 2>&1
         echo \"@@@@ $PIDFILE\" >> $LOGFILE 2>&1
         echo \"@@@@ PID= \$pid, `cat $PIDFILE`\" >> $LOGFILE 2>&1
+        echo \"@@@@ PID= \$pid, `cat .pid`\" >> $LOGFILE 2>&1
 
         if [ ! -z \"\$pid\" ]
         then
