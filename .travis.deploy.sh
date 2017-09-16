@@ -35,6 +35,6 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     fi
     . $DEPLOYVENV/bin/activate
     pip install -r requirements.txt >> $LOGFILE 2>&1
-    nohup $PYTHON server.py > $LOGFILE 2>&1 &
+    nohup $PYTHON server.py >> $LOGFILE 2>&1 &
     echo $! > .pid
 "
