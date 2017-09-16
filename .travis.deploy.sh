@@ -25,7 +25,7 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
         pid=\$(cat $PIDFILE)
         if [ ! -z \"\$pid\" ]
         then
-            echo \"Killing \$pid\" >> $LOGFILE 2>&1
+            echo \"Killing PID=\$pid\" >> $LOGFILE 2>&1
             kill -9 \$pid >> $LOGFILE 2>&1
         fi
     fi
@@ -37,5 +37,7 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     . $DEPLOYVENV/bin/activate
     pip install -r requirements.txt >> $LOGFILE 2>&1
     nohup $PYTHON server.py >> $LOGFILE 2>&1 &
-    echo \$! > $PIDFILE
+    pid=\$!
+    echo \"Started PID=\$pid\" >> $LOGFILE 2>&1
+    echo \$pid > $PIDFILE
 "
