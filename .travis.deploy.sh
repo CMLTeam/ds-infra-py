@@ -11,6 +11,7 @@ SERV=prod.cmlteam.com
 APP=ds-infra-py
 PYTHON=python2
 LOGFILE=.log
+PIDFILE=.pid
 DEPLOYVENV=.Python
 
 ssh -i /tmp/deploy_rsa $USER@$SERV "
@@ -20,13 +21,13 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     echo >> $LOGFILE
     cd $APP
     git pull
-    if [ -f \".pid\" ]
+    if [ -f \"$PIDFILE\" ]
     then
-        pid=`cat .pid`
-        if [ ! -z \"$pid\" ]
+        pid=`cat $PIDFILE`
+        if [ ! -z \"\$pid\" ]
         then
-            echo \"Killing $pid\" >> $LOGFILE 2>&1
-            kill -9 $pid >> $LOGFILE 2>&1
+            echo \"Killing \$pid\" >> $LOGFILE 2>&1
+            kill -9 \$pid >> $LOGFILE 2>&1
         fi
     fi
     if [ ! -d \"$DEPLOYVENV\" ]
@@ -36,5 +37,5 @@ ssh -i /tmp/deploy_rsa $USER@$SERV "
     . $DEPLOYVENV/bin/activate
     pip install -r requirements.txt >> $LOGFILE 2>&1
     nohup $PYTHON server.py >> $LOGFILE 2>&1 &
-    echo \$! > .pid
+    echo \$! > $PIDFILE
 "
